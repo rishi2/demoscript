@@ -3,6 +3,8 @@
 
 is_build_required=true
 
+can_start_server=true
+
 PATH_RETAILER=/Users/renovite/westfield/wrsinc/retailer/retailer
 
 PATH_ORDER=/Users/renovite/westfield/wrsinc/order/order
@@ -37,6 +39,16 @@ if [ "$is_build_required" = true ] ; then
 	GO_BUILD_COMMAND="go build;"
 fi
 
+if [ "$can_start_server" = true ] ; then
+  JAVA_SERVER_COMMAND="mvn spring-boot:run"
+  JAVA_SERVER_COMMAND_DEVELOPMENT="mvn -Drun.profiles=development spring-boot:run"
+  JAVA_SERVER_COMMAND_DEVELOPMENT_EMULATOR="mvn spring-boot:run -Dspring.profiles.active=development,emulator"
+  REDIS_SERVER_START="redis-server"
+
+  GO_SERVER_COMMAND="./server.sh"
+  
+fi
+
 
 function new_tab() {
   TAB_NAME=$1
@@ -49,41 +61,44 @@ function new_tab() {
 }
 
 echo "starting retailer service in new tab..."
-new_tab "retailer" "cd $PATH_RETAILER; $JAVA_BUILD_COMMAND mvn spring-boot:run"
+new_tab "retailer" "cd $PATH_RETAILER; $JAVA_BUILD_COMMAND $JAVA_SERVER_COMMAND"
 
+sleep 60s
 
 echo "starting Order service in new tab..."
-new_tab "order" "cd $PATH_ORDER; $JAVA_BUILD_COMMAND mvn spring-boot:run"
+new_tab "order" "cd $PATH_ORDER; $JAVA_BUILD_COMMAND $JAVA_SERVER_COMMAND"
 
 
 echo "starting Receipt service in new tab..."
-new_tab "receipt" "cd $PATH_RECEIPT; $JAVA_BUILD_COMMAND mvn spring-boot:run"
+new_tab "receipt" "cd $PATH_RECEIPT; $JAVA_BUILD_COMMAND $JAVA_SERVER_COMMAND"
 
 
 echo "starting Messaging service in new tab..."
-new_tab "messaging" "cd $PATH_MESSAGING; $JAVA_BUILD_COMMAND_SKIPTEST mvn -Drun.profiles=development spring-boot:run"
+new_tab "messaging" "cd $PATH_MESSAGING; $JAVA_BUILD_COMMAND_SKIPTEST $JAVA_SERVER_COMMAND_DEVELOPMENT"
 
 
 echo "starting Memberpreferences service in new tab..."
-new_tab "memberpreferences" "cd $PATH_MEMBERPREFERENCES; $JAVA_BUILD_COMMAND mvn spring-boot:run"
+new_tab "memberpreferences" "cd $PATH_MEMBERPREFERENCES; $JAVA_BUILD_COMMAND $JAVA_SERVER_COMMAND"
 
 
 echo "starting Template service in new tab..."
-new_tab "template" "cd $PATH_TEMPLATE; $JAVA_BUILD_COMMAND_SKIPTEST mvn spring-boot:run -Dspring.profiles.active=development,emulator"
+new_tab "template" "cd $PATH_TEMPLATE; $JAVA_BUILD_COMMAND_SKIPTEST $JAVA_SERVER_COMMAND_DEVELOPMENT_EMULATOR"
 
-
+if [ "$can_start_server" = true ] ; then
 echo "starting redis service in new tab..."
 new_tab "redis" "cd $PATH_REDIS; redis-server"
-
+fi
 
 echo "starting email service in new tab..."
-new_tab "email" "cd $PATH_EMAIL;  $JAVA_BUILD_COMMAND mvn spring-boot:run"
+new_tab "email" "cd $PATH_EMAIL;  $JAVA_BUILD_COMMAND $JAVA_SERVER_COMMAND"
 
 
-sleep 30s
+sleep 60s
 
+
+if [ "$can_start_server" = true ] ; then
 echo "starting databunker service in new tab..."
-new_tab "databunker" "cd $PATH_DATABUNKER; $GO_BUILD_COMMAND ./server.sh"
+new_tab "databunker" "cd $PATH_DATABUNKER; $GO_BUILD_COMMAND $GO_SERVER_COMMAND"
 
 echo "auth identity service in new tab..."
 new_tab "gauth" "cd $PATH_IDENTITY; gcloud beta auth login"
@@ -124,6 +139,7 @@ new_tab "retailerwebdemo" "cd $PATH_RETAILERWEBDEMO; $NPM_BUILD_COMMAND node app
 echo "starting ngrok url for retailerwebdemo service in new tab..."
 new_tab "ngrok" "cd $PATH_NGROK; ./ngrok http 8080"
 
+fi
 sleep 30s
 
 echo "All services started successfully... "
