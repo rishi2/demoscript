@@ -1,9 +1,9 @@
 #!/bin/bash
 #rishi's script
 
-is_build_required=true
+is_build_required=false
 
-can_start_server=true
+can_start_server=false
 
 PATH_RETAILER=/Users/renovite/westfield/wrsinc/retailer/retailer
 
@@ -91,6 +91,8 @@ fi
 
 echo "starting email service in new tab..."
 new_tab "email" "cd $PATH_EMAIL;  $JAVA_BUILD_COMMAND $JAVA_SERVER_COMMAND"
+
+new_tab "identity" "cd $PATH_IDENTITY"
 
 
 sleep 60s
