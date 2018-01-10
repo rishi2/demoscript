@@ -1,9 +1,9 @@
 #!/bin/bash
 #rishi's script
 
-is_build_required=false
+is_build_required=true
 
-can_start_server=false
+can_start_server=true
 
 PATH_RETAILER=/Users/renovite/westfield/wrsinc/retailer/retailer
 
@@ -63,7 +63,7 @@ function new_tab() {
 echo "starting retailer service in new tab..."
 new_tab "retailer" "cd $PATH_RETAILER; $JAVA_BUILD_COMMAND $JAVA_SERVER_COMMAND"
 
-sleep 60s
+#sleep 60s
 
 echo "starting Order service in new tab..."
 new_tab "order" "cd $PATH_ORDER; $JAVA_BUILD_COMMAND $JAVA_SERVER_COMMAND"
@@ -77,8 +77,8 @@ echo "starting Messaging service in new tab..."
 new_tab "messaging" "cd $PATH_MESSAGING; $JAVA_BUILD_COMMAND_SKIPTEST $JAVA_SERVER_COMMAND_DEVELOPMENT"
 
 
-echo "starting Memberpreferences service in new tab..."
-new_tab "memberpreferences" "cd $PATH_MEMBERPREFERENCES; $JAVA_BUILD_COMMAND $JAVA_SERVER_COMMAND"
+#echo "starting Memberpreferences service in new tab..."
+#new_tab "memberpreferences" "cd $PATH_MEMBERPREFERENCES; $JAVA_BUILD_COMMAND $JAVA_SERVER_COMMAND"
 
 
 echo "starting Template service in new tab..."
@@ -92,8 +92,13 @@ fi
 echo "starting email service in new tab..."
 new_tab "email" "cd $PATH_EMAIL;  $JAVA_BUILD_COMMAND $JAVA_SERVER_COMMAND"
 
+if [ "$can_start_server" = false ] ; then
+
 new_tab "identity" "cd $PATH_IDENTITY"
 
+new_tab "conversation" "cd $PATH_CONVERSATION"
+
+fi
 
 sleep 60s
 
