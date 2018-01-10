@@ -63,7 +63,7 @@ function new_tab() {
 echo "starting retailer service in new tab..."
 new_tab "retailer" "cd $PATH_RETAILER; $JAVA_BUILD_COMMAND $JAVA_SERVER_COMMAND"
 
-#sleep 60s
+sleep 60s
 
 echo "starting Order service in new tab..."
 new_tab "order" "cd $PATH_ORDER; $JAVA_BUILD_COMMAND $JAVA_SERVER_COMMAND"
