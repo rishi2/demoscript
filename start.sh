@@ -11,9 +11,9 @@ PATH_ORDER=/Users/renovite/westfield/wrsinc/order/order
 
 PATH_MESSAGING=/Users/renovite/westfield/wrsinc/messaging/messaging
 
-PATH_RECEIPT=/Users/renovite/westfield/wrsinc/receipt/receipt
+#PATH_RECEIPT=/Users/renovite/westfield/wrsinc/receipt/receipt
 
-PATH_MEMBERPREFERENCES=/Users/renovite/westfield/wrsinc/memberpreferences/memberpreferences
+#PATH_MEMBERPREFERENCES=/Users/renovite/westfield/wrsinc/memberpreferences/memberpreferences
 
 PATH_TEMPLATE=/Users/renovite/westfield/wrsinc/template/template
 
@@ -69,8 +69,8 @@ echo "starting Order service in new tab..."
 new_tab "order" "cd $PATH_ORDER; $JAVA_BUILD_COMMAND $JAVA_SERVER_COMMAND"
 
 
-echo "starting Receipt service in new tab..."
-new_tab "receipt" "cd $PATH_RECEIPT; $JAVA_BUILD_COMMAND $JAVA_SERVER_COMMAND"
+#echo "starting Receipt service in new tab..."
+#new_tab "receipt" "cd $PATH_RECEIPT; $JAVA_BUILD_COMMAND $JAVA_SERVER_COMMAND"
 
 
 echo "starting Messaging service in new tab..."
@@ -121,7 +121,7 @@ new_tab "datastore" "cd $PATH_IDENTITY; gcloud beta emulators datastore start"
 
 echo "starting identity service in new tab..."
 
-new_tab "identity" "cd $PATH_IDENTITY; $IDENTITY_BUILD_COMMAND go run main.go"
+new_tab "identity" "cd $PATH_IDENTITY; $GO_BUILD_COMMAND go run main.go"
 
 
 echo "starting conversation service in new tab..."
