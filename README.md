@@ -3,8 +3,8 @@ script to execute all services in different terminal tabs
 
 1. Update PATH for all services from your local machine in to start.sh
 2. set `is_build_required` to `false` if no build required.
-3. suppose don't want to start any server and just wants to go to specific folder for each service, might to to do git pull, or git stash.In such situation make `can_start_server' to 'false'
-4. execute `./start.sh' from terminal.
+3. set `can_start_server` to `false' if don't want to run any server and only want to open different terminals to take updates of different services.( basically `git pull')
+4. execute `./start.sh' from terminal to execute script.
 
 
 5. There are 30 sec gap to start some services so, you have to login do gauth within 30 secs once you get gcloud auth page and it will return back to terminal.
